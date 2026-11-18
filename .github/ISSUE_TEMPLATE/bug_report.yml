@@ -1,0 +1,19 @@
+name: Bug Report
+description: Report a reproducible bug in SentinelMesh
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Clear description of the observed bug vs expected behavior.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version & OS
+      placeholder: "v0.1.0-alpha.1 / Linux amd64"
+    validations:
+      required: true

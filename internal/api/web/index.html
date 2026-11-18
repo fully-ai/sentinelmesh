@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SentinelMesh — SIEM / EDR / XDR Operations Console</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="login-screen" class="login-backdrop hidden">
+    <form id="login-form" class="login-card">
+      <div class="brand-row">
+        <span class="pulse-dot"></span>
+        <h1>SentinelMesh</h1>
+      </div>
+      <p class="muted">Defensive SIEM, EDR &amp; XDR Control Plane</p>
+      <label for="login-username">Username</label>
+      <input id="login-username" name="username" type="text" autocomplete="username" required />
+      <label for="login-password">Password</label>
+      <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+      <div id="login-error" class="error-banner hidden"></div>
+      <button type="submit" class="btn primary full">Sign In</button>
+    </form>
+  </div>
+
+  <div id="app-shell" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="pulse-dot"></span>
+        <div>
+          <strong>SentinelMesh</strong>
+          <small>SOC / EDR / XDR</small>
+        </div>
+      </div>
+      <nav id="nav-links" class="nav-links" aria-label="Primary Navigation">
+        <button class="nav-btn active" data-view="overview">Overview</button>
+        <button class="nav-btn" data-view="endpoints">Endpoints</button>
+        <button class="nav-btn" data-view="events">Live Events</button>
+        <button class="nav-btn" data-view="alerts">Security Alerts</button>
+        <button class="nav-btn" data-view="incidents">Incidents</button>
+        <button class="nav-btn" data-view="rules">Detection Rules</button>
+        <button class="nav-btn" data-view="network">Network &amp; PCAP</button>
+        <button class="nav-btn" data-view="threatintel">Threat Intel (IOC)</button>
+        <button class="nav-btn" data-view="audit">Audit Logs</button>
+        <button class="nav-btn" data-view="users">Users &amp; Roles</button>
+        <button class="nav-btn" data-view="settings">Settings &amp; Plugins</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div id="user-pill" class="user-pill"></div>
+        <button id="logout-btn" class="btn ghost full">Sign Out</button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2 id="view-title">Security Overview</h2>
+          <span id="health-badge" class="badge ok">API Connected</span>
+        </div>
+        <div class="topbar-actions">
+          <input id="global-tenant" class="input-sm" type="text" placeholder="tenant_id (default)" title="Tenant filter (admin)" />
+          <button id="theme-toggle" class="btn ghost" title="Toggle Dark/Light Theme">Theme</button>
+          <button id="refresh-btn" class="btn primary">Refresh</button>
+        </div>
+      </header>
+
+      <div id="toast-bar" class="toast hidden" role="status"></div>
+      <section id="view-container" class="view-container"></section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

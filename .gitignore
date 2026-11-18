@@ -1,0 +1,30 @@
+# Binaries & build outputs
+bin/
+dist/
+build/
+*.exe
+*.out
+coverage.out
+coverage.html
+
+# Databases & spools
+*.db
+*.db-wal
+*.db-shm
+data/
+spool/
+
+# Secrets & certificates
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+secrets/
+
+# IDE & OS junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

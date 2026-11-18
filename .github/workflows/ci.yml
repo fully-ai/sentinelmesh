@@ -1,0 +1,50 @@
+name: SentinelMesh CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  linux-test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - name: Formatting check
+        run: test -z "$(gofmt -l .)"
+      - name: Static vet
+        run: go vet ./...
+      - name: Race & coverage tests
+        run: go test -race -cover ./...
+      - name: PCAP & YAML fuzz smoke
+        run: |
+          go test -fuzz=FuzzParsePCAP -fuzztime=5s ./internal/netmon
+          go test -fuzz=FuzzParseRuleYAML -fuzztime=5s ./internal/detection
+      - name: Build binaries
+        run: |
+          mkdir -p bin
+          go build -o bin/sentinelmesh-server ./cmd/sentinelmesh-server
+          go build -o bin/sentinelmesh-agent ./cmd/sentinelmesh-agent
+          go build -o bin/sentinelmesh ./cmd/sentinelmesh
+
+  windows-cross-check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - name: Vet & test Windows builds
+        run: |
+          go vet ./...
+          go test ./internal/domain ./internal/crypto ./internal/detection ./internal/netmon ./internal/threatintel
+          go build -o bin/sentinelmesh-agent.exe ./cmd/sentinelmesh-agent
+          go build -o bin/sentinelmesh-server.exe ./cmd/sentinelmesh-server
+          go build -o bin/sentinelmesh.exe ./cmd/sentinelmesh

@@ -1,0 +1,19 @@
+services:
+  sentinelmesh:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    ports:
+      - "127.0.0.1:8440:8440"
+    environment:
+      SENTINELMESH_JWT_SECRET: "${SENTINELMESH_JWT_SECRET:?Set a strong 32+ char JWT secret}"
+      SENTINELMESH_ADMIN_PASSWORD: "${SENTINELMESH_ADMIN_PASSWORD:?Set an initial admin password}"
+      SENTINELMESH_ALLOW_DISRUPTIVE: "false"
+    volumes:
+      - sentinelmesh_data:/data
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+volumes:
+  sentinelmesh_data:
